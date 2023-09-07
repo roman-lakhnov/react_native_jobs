@@ -30,7 +30,6 @@ const jobDetails = () => {
 		job_id: params.id
 	})
 	const [refreshing, setRefreshing] = useState(false)
-console.log(data);
 	const onRefresh = () => {}
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -42,12 +41,12 @@ console.log(data);
 					headerLeft: () => (
 						<ScreenHeaderBtn
 							iconUrl={icons.left}
-							dimension='60%'
+							dimension="60%"
 							handlePress={() => router.back()}
 						/>
 					),
 					headerRight: () => (
-						<ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
+						<ScreenHeaderBtn iconUrl={icons.share} dimension="60%" />
 					),
 					headerTitle: ''
 				}}
