@@ -1,27 +1,25 @@
-import {
-  Stack,
-  useGlobalSearchParams,
-  useRouter
-} from 'expo-router'
+import { Stack, useGlobalSearchParams, useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import {
-  ActivityIndicator,
-  RefreshControl,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View
+	ActivityIndicator,
+	RefreshControl,
+	SafeAreaView,
+	ScrollView,
+	Text,
+	View
 } from 'react-native'
 import {
-  Company,
-  JobAbout,
-  JobFooter,
-  JobTabs,
-  ScreenHeaderBtn
+	Company,
+	JobAbout,
+	JobFooter,
+	JobTabs,
+	ScreenHeaderBtn,
+	Specifics
 } from '../../components'
 import { COLORS, SIZES, icons } from '../../constants'
 import useFetch from '../../hook/useFetch'
-import styles from '../../components/jobdetails/company/company.style'
+
+const tabs = ['About', 'Qualifications', 'Responsibilities']
 
 const jobDetails = () => {
 	const params = useGlobalSearchParams()
@@ -30,7 +28,30 @@ const jobDetails = () => {
 		job_id: params.id
 	})
 	const [refreshing, setRefreshing] = useState(false)
+	const [activeTab, setActiveTab] = useState(tabs[0])
 	const onRefresh = () => {}
+	const displayTabContent = () => {
+		switch (activeTab) {
+			case 'Qualifications':
+				return (
+					<Specifics
+						title='Qualifications'
+						points={data[0].job_highlights?.Qualifications ?? ['N/A']}
+					/>
+				)
+			case 'About':
+				return <JobAbout info={data[0].job_description ?? 'No data provided'} />
+			case 'Responsibilities':
+				return (
+					<Specifics
+						title='Responsibilities'
+						points={data[0].job_highlights?.Responsibilities ?? ['N/A']}
+					/>
+				)
+			default:
+				break
+		}
+	}
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
 			<Stack.Screen
@@ -41,12 +62,12 @@ const jobDetails = () => {
 					headerLeft: () => (
 						<ScreenHeaderBtn
 							iconUrl={icons.left}
-							dimension="60%"
+							dimension='60%'
 							handlePress={() => router.back()}
 						/>
 					),
 					headerRight: () => (
-						<ScreenHeaderBtn iconUrl={icons.share} dimension="60%" />
+						<ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
 					),
 					headerTitle: ''
 				}}
@@ -72,11 +93,21 @@ const jobDetails = () => {
 								companyName={data[0].employer_name}
 								location={data[0].job_country}
 							/>
-							<JobTabs />
+							<JobTabs
+								tabs={tabs}
+								activeTab={activeTab}
+								setActiveTab={setActiveTab}
+							/>
+							{displayTabContent()}
 						</View>
-
 					)}
 				</ScrollView>
+				<JobFooter
+					url={
+						data[0]?.job_google_link ??
+						'https://careers.gooogle.com/jobs/results'
+					}
+				/>
 			</>
 		</SafeAreaView>
 	)
