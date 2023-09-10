@@ -1,5 +1,5 @@
 import { Stack, useGlobalSearchParams, useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
 	ActivityIndicator,
 	RefreshControl,
@@ -29,7 +29,11 @@ const jobDetails = () => {
 	})
 	const [refreshing, setRefreshing] = useState(false)
 	const [activeTab, setActiveTab] = useState(tabs[0])
-	const onRefresh = () => {}
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		refetch()
+		setRefreshing(false)
+	}, [])
 	const displayTabContent = () => {
 		switch (activeTab) {
 			case 'Qualifications':
