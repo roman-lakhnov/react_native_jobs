@@ -8,6 +8,26 @@
       "expo-router"
     ],
     "name": "react_native_jobs",
-    "slug": "react_native_jobs"
+    "slug": "react_native_jobs",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "11b40fed-0621-4697-8528-4f653678dc7c"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/11b40fed-0621-4697-8528-4f653678dc7c"
+    },
+    "android": {
+      "package": "com.kineri.react_native_jobs"
+    },
+    "ios": {
+      "bundleIdentifier": "com.kineri.react.native.jobs.ios"
+    }
   }
 }
